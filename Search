@@ -1,0 +1,63 @@
+<html>
+	<head>
+		<title>Add New User</title>
+		<link rel="stylesheet" href="css/style.css">
+		<script>
+			<!--add validation js script here
+		</script>
+	</head>
+	<body>
+		
+		</br>
+			<div>
+				Search Using: <input type="radio" name="Diagnostics" value="1"> Diagnostics Table
+				<input type="radio" name="Student" value="2"> Student Table
+				<input type="radio" name="Hospitals" value="3"> Hospitals Table
+				<input type="radio" name="Nurse" value="4"> Nurse Table
+			</div>
+			</br>
+					<div id="divStatus"></div>
+					<form action="" method="GET">
+						<input type="text" name="txtSearch">
+						<input type="submit" value="search">	
+					</form>
+     				
+<?php
+
+	//1) Create object of users class
+	include_once("users.php");
+	$obj=new users();
+	
+	$variable="";
+	if (isset($_REQUEST['Diagnostics']) && ($_REQUEST['txtSearch'])){
+		$r=$obj->searchUsers($_REQUEST['txtSearch']);
+		
+	}else if (isset($_REQUEST['Student']){
+		$variable=$_REQUEST['Student'];
+	}else if (isset($_REQUEST['Hospitals']){
+		$variable=$_REQUEST['Hospitals'];
+	}else if (isset($_REQUEST['Nurse']){
+		$variable=$_REQUEST['Nurse'];
+	}else {
+		$r=$obj->getStudent();
+	}
+	
+	if (!$r){
+		echo "Error occurred when retrieving information";
+	}
+	
+	//3) show the result
+	echo "<table border=\"1\">";
+	echo "<tr><td>STUDENT_ID</td><td>USERNAME</td><td>FIRSTNAME</td><td>LASTNAME</td>
+	<td>GENDER</td><td>PHONE NUMBER</td><td>HOSTEL</td><td>INSURANCE_TYPE</td></tr>";
+	while ($row=$obj->fetch()){
+		echo "<tr bgcolor = #FFFF00><td>{$row['Student_ID']}</td><td>{$row['Username']}</td>
+		<td>{$row['Firstname']}</td><td>{$row['Lastname']}</td><td>{$row['Gender']}</td><td>{$row['Phone_number']}</td>
+		<td>{$row['Hostel']}</td><td>{$row['Insurance_type']}</td></tr>";
+	}
+
+	echo "</table>";
+?>						
+				
+	</body>
+</html>	
