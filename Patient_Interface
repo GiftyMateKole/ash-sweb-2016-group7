@@ -37,3 +37,25 @@ html>
 		</table>
 	</body>
 </html>	
+
+<?php
+include_once "patient.php";
+//Create an object of patient class
+$obj=new patient();
+
+if(isset($_REQUEST['student_id'])){
+	$id=$_REQUEST['student_id'];
+	$fname=$_REQUEST['fname'];
+	$lname=$_REQUEST['lname'];
+	$age=$_REQUEST['age'];
+	$gender=$_REQUEST['gender'];
+	$num=$_REQUEST['num'];
+	$email=$_REQUEST['email'];
+	$location=$_REQUEST['location'];
+	$insurance=$_REQUEST['insurance'];
+}
+
+//calls the function addPatient
+$result=$obj->addPatient($id,$fname,$lname,$age,$gender,$num,$email,$location,$insurance);
+
+?>
