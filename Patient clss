@@ -1,8 +1,8 @@
 <?php
 
-include_once "adb_1.php";
+include_once "adb.php";
 
-class patient extends adb_1{
+class patient extends adb{
 	function users(){
 	}
 //Function to add patients to the database
@@ -17,4 +17,8 @@ class patient extends adb_1{
 		return $result;
 	}
 }
+/*
+$obj=new clinic();
+$obj->addPatient('23456789','Elsa','Frozen',20,'FEMALE',23456789,'elsa@gmail.com','ON-CAMPUS',24345668);
+*/
 ?>
