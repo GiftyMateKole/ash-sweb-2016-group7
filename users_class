@@ -1,0 +1,48 @@
+<?php
+/**
+*/
+include_once("adb.php");
+/**
+*Users  class
+*/
+class users extends adb{
+	function users(){
+	}
+
+	function getStudent($filter=false){
+		$strQuery="select STUDENT_ID,FIRSTNAME,LASTNAME,GENDER,AGE,PHONE,EMAIL, LOCATION, insurance.INSURANCE_TYPE
+		from patient left join insurance on patient.Insurance_ID=insurance.Insurance_ID";
+		
+		if($filter!=false){
+			$strQuery=$strQuery . " where $filter";
+		}
+		return $this->query($strQuery);
+	}
+	
+	function getHospital(){
+		$strQuery="select HOSPITAL_ID, NAME, ADDRESS, PHONE from hospital";
+
+		return $this->query($strQuery);
+	}
+		
+	function getDiagnostics($diagnostic){
+		$strQuery="select DIAGNOSTICS_ID,diagnostics.DISEASE_NAME, diagnostics.TIME, diagnostics.DRUGS_ADMINISTERED, 
+		nurse.FIRSTNAME,nurse.LASTNAME,hospital.NAME,LOCATION,patient.AGE,
+		patient.PHONE from diagnostics left join nurse on diagnostics.NURSE_ID=nurse.NURSE_ID
+		left join patient on diagnostics.STUDENT_ID=patient.STUDENT_ID left join hospital on diagnostics.HOSPITAL_ID=hospital.HOSPITAL_ID WHERE patient.STUDENT_ID=$diagnostic";
+		
+		return $this->query($strQuery);
+	}
+	
+	function searchStudent($text=false){
+		$filter=false;
+		if($text!=false){
+			$filter="Student_ID like '%$text%'";
+		}
+		
+		return $this->getStudent($filter);
+	}
+	
+	
+}
+?>
