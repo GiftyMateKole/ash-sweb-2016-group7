@@ -5,4 +5,16 @@ include_once "adb_1.php";
 class patient extends adb_1{
 	function users(){
 	}
+//Function to add patients to the database
+	function addPatient($id,$fname,$lname,$age,$gender,$num,$email,$location,$insurance){
+		$query="insert into patient set STUDENT_ID='$id',FIRSTNAME='$fname',LASTNAME='$lname',PHONE='$num',EMAIL='$email',AGE='$age',GENDER='$gender',LOCATION='$location',INSURANCE_ID='$insurance'";
+		$result=$this->query($query);
+		if($result){
+		echo "Patient Added Successfully";
+	}else{
+		echo "Error while adding data";
+	}
+		return $result;
+	}
+}
 ?>
