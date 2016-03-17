@@ -1,0 +1,8 @@
+<?php
+
+include_once "adb_1.php";
+
+class patient extends adb_1{
+	function users(){
+	}
+?>
