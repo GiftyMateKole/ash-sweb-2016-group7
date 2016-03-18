@@ -1,0 +1,159 @@
+	<html>
+		<head>
+			<title>Search Information</title>
+			<link rel="stylesheet" href="css/style.css">
+			<script>
+				<!--add validation js script here
+			</script>
+		</head>
+		<body>
+		   <table>
+			<tr>
+					<td colspan="2" id="pageheader">
+						Ashesi University Clinic
+					</td>
+			</tr>
+			<tr>
+					<td id="mainnav">
+						<div class="menuitem">menu 1</div>
+						<div class="menuitem">menu 2</div>
+					</td>
+					<td id="content">
+						<div id="divPageMenu">
+							<span class="menuitem" >page menu 1</span>
+							<input type="text" id="txtSearch" />
+							<span class="menuitem">search</span>		
+						</div>
+						<div id="divStatus" class="status">
+							status message
+						</div>
+			</br>
+			
+				</br>
+				<div style="width:450px;">
+	<div style="float: left; width: 130px"> 
+	<form id="label" action="usersSearch.php" method="post">
+		<input type="submit" name = "Diagnostics" value="Display_All_Cases" >
+	</form>
+	</div>
+	<div style="float: left; width: 145px"> 
+		<form id="label" action="usersSearch.php" method="post">
+		 <input type="submit" name = "Hospital" value="Display_All_Hospitals" >
+		</form>
+	</div>
+	<div style="float: left; width: 150px"> 
+		<form id="label" action="usersSearch.php" method="post">
+		 <input type="submit" name = "Patient" value="Display_All_Patients" >
+		</form>
+	</div>
+	</div>
+		<div id="divStatus" style="float:center; width:225px">
+			<pre style="float: left; color:blue">TABLES AVAILABLE ARE: Diagnosis - Patient </pre>
+			<form action="" method="GET">
+			    
+				<div> TABLE NAME<input type="group" name="tableName"></div>
+				<div> ID NUMBER<input type="text" name="txtSearch"></div></br>
+						<input type="submit" value="search">	
+			</form>
+						
+	<?php
+
+		//1) Create object of users class
+		include_once("users.php");
+		$obj=new users();
+		$result="";
+		if (isset($_REQUEST['Diagnostics'])){
+			$r=$obj->getAllDiagnosis();
+			
+			if (!$r){
+			echo "Error occurred when retrieving information";
+		}
+		echo "<table border=\"1\">";
+			echo "<tr><td>DIAGNOSTICS ID</td><td>DISEASE NAME</td><td>TIME</td><td>DRUGS ADMINISTERED</td>
+		<td>NURSE'S FIRSTNAME</td><td>NURSE'S LASTNAME</td><td>HOSTEL</td><td>STUDENT FNAME</td><td>STUDENT LNAME</td><td>PHONE NUMBER</td>
+		<td>REFERALS</td></tr>";
+		while ($row=$obj->fetch()){
+			echo "<tr bgcolor = #FFFF00><td>{$row['DIAGNOSIS_ID']}</td><td>{$row['DISEASE_NAME']}</td>
+			<td>{$row['TIME']}</td><td>{$row['DRUGS_ADMINISTERED']}</td><td>{$row['FIRST_NAME']}</td><td>{$row['LAST_NAME']}</td><td>{$row['LOCATION']}</td>
+			<td>{$row['FIRSTNAME']}</td><td>{$row['LASTNAME']}</td><td>{$row['PHONE']}</td><td>{$row['NAME']}</td></tr>";
+		}
+		echo "</table>";	
+		}
+		 
+		 if (isset($_REQUEST['Hospital'])){
+			$r=$obj->getHospital();
+			
+			if (!$r){
+			echo "Error occurred when retrieving information";
+		}
+		echo "<table border=\"1\">";
+			echo "<tr><td> HOSPITAL_ID</td><td>HOSPITAL NAME</td><td>ADDRESS</td><td>PHONE</td></tr>";
+			while ($row=$obj->fetch()){
+				echo "<tr bgcolor = #FFFF00><td>{$row['HOSPITAL_ID']}</td><td>{$row['NAME']}</td>
+			<td>{$row['ADDRESS']}</td><td>{$row['PHONE']}</td></tr>";
+			}
+			echo "</table>";	
+		}
+		
+		if (isset($_REQUEST['Patient'])){
+			$r=$obj->getPatientInfo();
+			
+			if (!$r){
+				echo "Error occurred when retrieving information";
+			}
+					echo "<table border=\"1\">";
+		echo "<tr><td>STUDENT_ID</td><td>FIRSTNAME</td><td>LASTNAME</td>
+		<td>GENDER</td><td>AGE</td><td>PHONE NUMBER</td><td>EMAIL</td><td>INSURANCE_TYPE</td><td>LOCATION</td></tr>";
+		while ($row=$obj->fetch()){
+			echo "<tr bgcolor = #FFFF00><td>{$row['STUDENT_ID']}</td><td>{$row['FIRSTNAME']}</td>
+			<td>{$row['LASTNAME']}</td><td>{$row['AGE']}</td><td>{$row['GENDER']}</td><td>{$row['AGE']}<td>{$row['PHONE']}</td>
+			<td>{$row['EMAIL']}</td><td>{$row['INSURANCE_TYPE']}</td><td>{$row['LOCATION']}</td></tr>";
+		}
+		echo "</table>";
+		}
+		 
+		if (isset($_REQUEST['tableName'])){
+			$result=strcmp("Patient",$_REQUEST['tableName']);
+			if ($result==0){
+			$r=$obj->searchPatient($_REQUEST['txtSearch']);
+			 
+			if (!$r){
+			echo "Error occurred when retrieving information";
+		}
+		
+		echo "<table border=\"1\">";
+		echo "<tr><td>STUDENT_ID</td><td>FIRSTNAME</td><td>LASTNAME</td>
+		<td>GENDER</td><td>AGE</td><td>PHONE NUMBER</td><td>EMAIL</td><td>INSURANCE_TYPE</td><td>LOCATION</td></tr>";
+		while ($row=$obj->fetch()){
+			echo "<tr bgcolor = #FFFF00><td>{$row['STUDENT_ID']}</td><td>{$row['FIRSTNAME']}</td>
+			<td>{$row['LASTNAME']}</td><td>{$row['AGE']}</td><td>{$row['GENDER']}</td><td>{$row['AGE']}<td>{$row['PHONE']}</td>
+			<td>{$row['EMAIL']}</td><td>{$row['INSURANCE_TYPE']}</td><td>{$row['LOCATION']}</td></tr>";
+		}
+		echo "</table>";
+			 }
+			 
+		$result=strcmp("Diagnosis",$_REQUEST['tableName']);
+			if ($result==0){
+			$r=$obj->getDiagnosis($_REQUEST['txtSearch']);
+			 
+			if (!$r){
+			echo "Error occurred when retrieving information";
+		}
+		echo "<table border=\"1\">";
+			echo "<tr><td>DIAGNOSTICS ID</td><td>DISEASE NAME</td><td>TIME</td><td>DRUGS ADMINISTERED</td>
+		<td>NURSE'S FIRSTNAME</td><td>NURSE'S LASTNAME</td><td>HOSTEL</td><td>PHONE NUMBER</td></tr>";
+		while ($row=$obj->fetch()){
+			echo "<tr bgcolor = #FFFF00><td>{$row['DIAGNOSIS_ID']}</td><td>{$row['DISEASE_NAME']}</td>
+			<td>{$row['TIME']}</td><td>{$row['DRUGS_ADMINISTERED']}</td><td>{$row['FIRST_NAME']}</td><td>{$row['LAST_NAME']}</td><td>{$row['NAME']}</td>
+			<td>{$row['LOCATION']}</td><td>{$row['PHONE']}</td></tr>";
+		}
+		echo "</table>";	
+		}
+		}	
+	?>				
+				    </div>
+		    	    </td>
+		    	</tr>
+	    	</table>
+    	</body>
+	</html>	
