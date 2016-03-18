@@ -20,7 +20,7 @@ html>
 					</div>
 					<div id="divContent">
 						
-						<form action="addPatient.php" method="GET">
+						<form action="patient.php" method="GET">
 					
 			<div>Student Id:   <input type="text" name="student_id"/><br></div>
 			<div>Firstname:   <input type="text" name="fname"/><br></div>
