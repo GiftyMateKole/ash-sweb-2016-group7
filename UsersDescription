@@ -1,0 +1,15 @@
+users class
+
+This class contains functions that would enable the user search for data from the Ashesi Clinic database. 
+Some functions take in parameters whiles some do not take in parameters. 
+The ones that take in parameters return specific information about an individual in the database based on the Id it receives.
+The remaining that do not take parameters would return the entire record from the database. In this case, the information would be on
+a particular table.
+
+The functions:
+getAllDiagnosis()
+getPatientInfo()
+getPatient($filter)
+getHospital()
+getDiagnosis($diagnosis)
+searchPatient($text)
