@@ -16,4 +16,19 @@ class Info extends Adm{
 		}
 		return $this->query($strQuery);
 	}
+		function searchUsers($text=false){
+		$filter=false;
+		if($text!=false){
+			$filter=" STUDENT_ID = $text";
+		}
+	
+		return $this->getPatient($filter);
+	}
+	
+	
+	function deletePatient($pid){
+		$strQuery = "delete from patient where STUDENT_ID = $pid;";
+		return $this->query($strQuery);
+	}
+
 	?>
