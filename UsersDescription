@@ -1,4 +1,4 @@
-users class
+#users class#
 
 This class contains functions that would enable the user search for data from the Ashesi Clinic database. 
 Some functions take in parameters whiles some do not take in parameters. 
