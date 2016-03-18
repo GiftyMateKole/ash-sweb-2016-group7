@@ -8,8 +8,19 @@ a particular table.
 
 The functions:
 getAllDiagnosis()
+Returns all information from the diagnosis table
+
 getPatientInfo()
+Returns all the information from the patient table
+
 getPatient($filter)
+Returns information from the patient table on a specific individual
+
 getHospital()
+Returns all information from the hospital table
+
 getDiagnosis($diagnosis)
+Returns information from the diagnosis table on a specific individual
+
 searchPatient($text)
+Calls on the getPatient($filter) to return information from the patient table on a specific individual
