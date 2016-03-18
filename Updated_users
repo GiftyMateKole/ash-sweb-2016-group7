@@ -1,0 +1,118 @@
+<?php
+/**
+* author: Francis Kornu
+* date: 18-03-2016
+*/
+include_once("adb.php");
+/**
+*Users  class
+*/
+class users extends adb{
+	function users(){
+	}
+
+/**
+*Returns all information from the diagnosis table
+*@param null
+*return boolean returns true if successful or false 
+*/
+    function getAllDiagnosis(){
+	$strQuery="select DIAGNOSIS_ID,diagnosis.DISEASE_NAME, diagnosis.TIME, diagnosis.DRUGS_ADMINISTERED, 
+		nurse.FIRST_NAME,nurse.LAST_NAME,hospital.NAME,LOCATION,patient.FIRSTNAME,patient.LASTNAME,patient.AGE,
+		patient.PHONE from diagnosis left join nurse on diagnosis.NURSE_ID=nurse.NURSE_ID
+		left join patient on diagnosis.STUDENT_ID=patient.STUDENT_ID left join hospital on diagnosis.HOSPITAL_ID=hospital.HOSPITAL_ID";
+		
+		return $this->query($strQuery);	
+	}
+
+	/**
+	*Returns all the information from the patient table
+	*@param null
+	*return boolean returns true if successful or false 
+	*/
+	function getPatientInfo(){
+		$strQuery="select STUDENT_ID,FIRSTNAME,LASTNAME,GENDER,AGE,PHONE,EMAIL, LOCATION, insurance.INSURANCE_TYPE
+		from patient left join insurance on patient.Insurance_ID=insurance.Insurance_ID";
+		
+		return $this->query($strQuery);
+	}
+	
+	/**
+	*Returns information from the patient table on a specific individual
+	*@param int $filter filter as STUDENT_ID
+	*getPatient returns boolean true if successful or false
+	*/
+	function getPatient($filter=false){
+		$strQuery="select STUDENT_ID,FIRSTNAME,LASTNAME,GENDER,AGE,PHONE,EMAIL, LOCATION, insurance.INSURANCE_TYPE
+		from patient left join insurance on patient.Insurance_ID=insurance.Insurance_ID";
+		
+		if($filter!=false){
+			$strQuery=$strQuery . " where $filter";
+		}
+		return $this->query($strQuery);
+	}
+	
+	/**
+	*Returns all information from the hospital table
+	*@param null 
+	*getHospital() returns boolean true if successful or false
+	*/
+	function getHospital(){
+		$strQuery="select HOSPITAL_ID, NAME, ADDRESS, PHONE from hospital";
+
+		return $this->query($strQuery);
+	}
+		
+	/**
+	*Returns information from the diagnosis table on a specific individual
+	*@param int $diagnosis diagnosis as STUDENT_ID
+	^getAllDiagnosis returns boolean true if successful or false
+    */	
+	function getDiagnosis($diagnosis){
+		$strQuery="select DIAGNOSIS_ID,diagnosis.DISEASE_NAME, diagnosis.TIME, diagnosis.DRUGS_ADMINISTERED, 
+		nurse.FIRST_NAME,nurse.LAST_NAME,hospital.NAME,LOCATION,patient.AGE,
+		patient.PHONE from diagnosis left join nurse on diagnosis.NURSE_ID=nurse.NURSE_ID
+		left join patient on diagnosis.STUDENT_ID=patient.STUDENT_ID left join hospital on diagnosis.HOSPITAL_ID=hospital.HOSPITAL_ID WHERE patient.STUDENT_ID=$diagnosis";
+		
+		return $this->query($strQuery);
+	}
+	
+	/**
+	*Calls on the getPatient($filter) to return information from the patient table on a specific individual
+	*@param int $text text as STUDENT_ID
+	*returns boolean true if successful or false
+	*/
+	function searchPatient($text=false){
+		$filter=false;
+		if($text!=false){
+			$filter="Student_ID like '%$text%'";
+		}
+		
+		return $this->getPatient($filter);
+	}
+}
+
+
+/*
+Unit Test
+$obj = new users();
+
+$r=$obj->getDiagnostics(34552017);
+$db=$obj->fetch();
+print_r($db);
+
+$r=$obj->getHospital();
+$db=$obj->fetch();
+print_r($db);
+
+$r=$obj->getPatientInfo();
+$db=$obj->fetch();
+print_r($db);
+
+$r=$obj->getAllDiagnosis(34552017);
+$db=$obj->fetch();
+print_r($db);
+*/
+
+?>
+
