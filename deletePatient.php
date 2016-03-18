@@ -27,8 +27,11 @@ class Info extends Adm{
 	
 	
 	function deletePatient($pid){
-		$strQuery = "delete from patient where STUDENT_ID = $pid;";
+		$strQuery = "delete from patient where STUDENT_ID = $pid";
 		return $this->query($strQuery);
 	}
-
+}
+/*$delP = new Info();
+$delP->deletePatient(11362017);
+*/
 	?>
