@@ -36,7 +36,8 @@
 							
 <?php
 
-	//1) Create object of records class
+	/** Create object of records class
+	*/
 	include_once ("records.php");
 	$obj=new records();
 	$r=$obj->getPatientRecords();
