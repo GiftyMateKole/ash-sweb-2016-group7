@@ -29,6 +29,16 @@ class Info extends Adm{
 		}
 		return $this->query($strQuery);
 	}
+	
+	//method to retrieve the diagnosis information
+	function getDiagnosis($filter = false){
+		$strQuery="select DIAGNOSIS_ID,DISEASE_NAME,DIAGNOSIS_TIME,DRUGS_ADMINISTERED,NURSE_ID,STUDENT_ID,HOSPITAL_ID from diagnosis";
+		if ($filter!=false){
+			$strQuery = $strQuery."where $filter";
+		}
+		return $this->query($strQuery);
+	}
+	
 	/**
 	*Searchs for patient using student id
 	*@param int $text contains the student id 
@@ -51,6 +61,17 @@ class Info extends Adm{
 	
 		return $this->getNurse($filter);
 	}
+	
+	//search for dianosis using diagnosis id
+	function searchDiagnosis($text=false){
+		$filter=false;
+		if($text!=false){
+			$filter=" DIAGNOSIS_ID = $text";
+		}
+	
+		return $this->getDiagnosis($filter);
+	}
+	
 	/**
 	*Deletes information on patients
 	*@param int $pid stores and calls the patient's student id whose record is to be deleted
@@ -63,6 +84,12 @@ class Info extends Adm{
 	//method to delete nurse information
 	function deleteNurse($nid){
 		$strQuery = "delete from nurse where NURSE_ID = $nid";
+		return $this->query($strQuery);
+	}
+	
+	//method to delete diagnosis information
+	function deleteDiagnosis($did){
+		$strQuery = "delete from diagnosis where DIAGNOSIS_ID = $did";
 		return $this->query($strQuery);
 	}
 }
