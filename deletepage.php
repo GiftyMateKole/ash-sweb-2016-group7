@@ -15,4 +15,15 @@
 	}
 		exit();
 	}
+	
+	if(isset($_REQUEST['un'])){
+	$nid = $_REQUEST['un'];
+	$newDel2 = new Info();
+	$Del2 = $newDel2->deleteNurse($nid);
+	if ($Del2 == false){
+		
+	}
+	echo "error";
+		exit();
+	}
 	?>
