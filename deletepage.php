@@ -26,4 +26,14 @@
 	echo "error";
 		exit();
 	}
+	
+	if(isset($_REQUEST['ud'])){
+	$did = $_REQUEST['ud'];
+	$newDel3 = new Info();
+	$Del3 = $newDel3->deleteDiagnosis($did);
+	if ($Del3 == false){	
+	}
+	echo "error";
+		exit();
+	}
 	?>
