@@ -2,8 +2,7 @@
 
 
 ##Fields##
-###$query###
-Stores the sql query.
+
 
 ###$result###
 Stores data retrieved by query.
