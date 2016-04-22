@@ -31,4 +31,48 @@
 			}
 			</script>
 			</head>
+			<body>
+	<div id="header">
+                   <img src="logo.jpg" id="logo">
+                   <img src="title-img.jpg" id="title">
+				   <b>Ashesi Clinic Management System</b>
+         </div>
+	     <a class="mobile" href="#">MENU</a>
+	     <div id="container">
+	         <div class="sidebar">
+	         	  <ul id="nav">
+	         	  	  <li><a class="selected" href="#">Dashboard</a></li>
+	         	  	  <li><a href="#">Home</a></li>
+	         	  	  <li><a href="#">Search</a></li>
+	         	  	  <li><a href="#">Edit</a></li>
+	         	  	  <li><a href="#">View</a></li>
+	         	  	  <li><a href="#">Add</a></li>
+	         	  </ul>
+	         </div>
+	     	 <div class="content">
+		<div class="status" id="divStatus">Ready</div>
+		
+					
+			<div>Student Id:   <input type="text" name="student_id"/><br></div>
+			<div>Firstname:   <input type="text" name="fname"/><br></div> 
+			<div>Lastname:   <input type="text" name="lname"/><br></div>
+			<div>Age:   <input type="text" name="age"/><br></div>
+			<div>Gender:   <input type="radio" name="gender" value="male">Male<input type="radio" name="gender" value="female" checked>Female <br></div>
+			<div>Location:   <select name="location">
+			<option value="ON-CAMPUS">ON-CAMPUS</option>
+			<option value="OFF-CAMPUS">OFF-CAMPUS</option>
+			</select>
+			<div>Phone Number:   <input type="text" name="num"/><br></div>
+			<div>Email:   <input type="text" name="email"/></div>
+			<div>Insurance ID:   <input type="text" name="insurance"/></div>
+  
+        <button value="Add" class="add" onclick="addPatient()">Add</button>
+		 </div>
+  <footer class="mainFooter">
+		    <p>Ashesi University College Health Center</p>
+			<h1>Follow us on facebook!!!</h1>
+	   </footer>
+	         </div>
+	      </div>
+	</body>
 			</html>
