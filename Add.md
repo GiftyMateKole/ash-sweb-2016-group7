@@ -1,4 +1,4 @@
-#Add.php class reference.
+#Add.php reference.
 
 
 ##Fields##
