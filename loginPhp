@@ -1,0 +1,22 @@
+<html>
+<head>
+<title>Login</title>
+ <link rel="stylesheet" href="css.css">
+ 
+</head>
+<body>
+<div id="content">
+<h1 style="text-align:center">WELCOME</h1>
+</br>
+<form action="server.php" method="POST">
+<img src="https://cdn2.iconfinder.com/data/icons/finances/512/client-512.png" >
+</br>
+<div><input type="text" name="username" placeholder="USERNAME"></div>
+</br>
+<div><input type="password" name="password" placeholder="PASSWORD"></div>
+</br>
+<input type="submit" value="Login">
+</form>
+</div>
+</body>
+</html>
