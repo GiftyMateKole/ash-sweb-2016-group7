@@ -1,0 +1,248 @@
+
+<?php
+/**
+*@session
+*This is to make sure the page stays open for specific amount of time
+* It would automatically redirect user to the login page after 30 minutes of inactivity 
+*/
+session_start();
+if (!isset($_SESSION['USERNAME'])){
+header("Location:login.php");
+exit();
+} else{
+	$now=time();
+	if ($now>$_SESSION['EXPIRE']){
+		session_destroy();
+		header("Location:login.php");
+	}
+}
+
+?>
+	<html>
+	<head>
+	<title>Ashesi University</title>
+	<link rel="stylesheet" type="text/css" href="css/group.css" />
+	<script src="js/jquery-1.12.1.js"></script>
+	
+	<script>
+	/**
+	*@popup function ()
+	*This is a popup window to explain to the user how to use the system
+	*/
+	function popup(){
+  displayWindow = window.open("popup.html", "littleWindow", "location=no,width=420,height=200"); 
+}
+
+var currentObject=null;
+			
+	/**
+	*@searchInfoComplete()
+	*Receives feedback from the ajax call and displays the information from the database relating to patient information
+	*@param xhr,status
+	*/
+	function searchInfoComplete(xhr,status){
+				if(status!="success"){
+					 document.getElementById('display').innerHTML ="error sending request";
+					return;
+				}
+				
+				var block=$.parseJSON(xhr.responseText);
+				if (block.result==0){
+				document.getElementById('text').innerHTML ="Search request by student ID failed";	
+				return;
+				}
+				if (block.result == 0){
+				    document.getElementById('display').innerHTML =block.message;
+				}
+   document.getElementById('display').innerHTML = "";
+					$(function(){
+	document.getElementById('display').innerHTML =" <thead><tr id='header'><th id='name'>Student_Firstname</th><th id='lname'>Student_Lastname</th><th id='phone'>Phone</th><th id='age'>Age</th><th id='disease'>Disease_Treated</th><th id='drugs'>Drugs_Administered</th><th id='time'>Time & Date</th><th id='nurse'>Nurse_on_Duty</th></tr> </thead>";
+    $.each(block, function(i, item){
+        var tr = $('<tr>').append(
+		
+            $('<td>').text(item.FIRSTNAME),
+            $('<td>').text(item.LASTNAME),
+			$('<td>').text(item.PHONE),
+			$('<td>').text(item.AGE),
+			$('<td>').text(item.DISEASE_NAME),
+			$('<td>').text(item.DRUGS_ADMINISTERED),
+			$('<td>').text(item.TIME),
+			$('<td>').text(item.USERNAME)
+        ).appendTo('#display');
+     });
+  });
+				currentObject=null;
+			}
+			
+			/**
+	*@searchNurseComplete()
+	*Receives feedback from the ajax call and displays the information from the database relating to nurse information
+	*@param xhr,status
+	*/
+			function searchNurseComplete(xhr,status){
+				if(status!="success"){
+					 document.getElementById('display').innerHTML ="error sending request";
+					return;
+				}
+				
+				
+				var obj=$.parseJSON(xhr.responseText);
+				if (obj.result==0){
+				document.getElementById('text').innerHTML ="Search request by nurse username failed";	
+				return;
+				}
+   document.getElementById('display').innerHTML = "";
+					$(function(){
+	document.getElementById('display').innerHTML =" <thead><tr id='header'><th id='username'>Nurse_on_Duty</th><th id='disease'>Disease_Name</th><th id='time'>Time & Date</th><th id='drugs'>Drugs_Administered</th><th id='fname'>Student_Firstname</th><th id='lname'>Student_Lastname</th><th id='phone'>Phone</th></tr> </thead>";
+    $.each(obj, function(i, item){
+        var tr = $('<tr>').append(
+			$('<td>').text(item.USERNAME),
+			$('<td>').text(item.DISEASE_NAME),
+			$('<td>').text(item.TIME),
+			$('<td>').text(item.DRUGS_ADMINISTERED),
+            $('<td>').text(item.FIRSTNAME),
+            $('<td>').text(item.LASTNAME),
+			$('<td>').text(item.PHONE)
+        ).appendTo('#display');
+     });
+  });
+		
+				currentObject=null;
+			}
+			
+			/**
+	*@searchDiseaseComplete()
+	*Receives feedback from the ajax call and displays the information from the database relating to disease information
+	*@param xhr,status
+	*/
+function searchDiseaseComplete(xhr,status){
+				if(status!="success"){
+					 document.getElementById('display').innerHTML ="error sending request";
+					return;
+				}
+				
+				var obj=$.parseJSON(xhr.responseText);
+				if (obj.result==0){
+				document.getElementById('text').innerHTML ="Search request by disease name failed";	
+				return;
+				}
+   document.getElementById('display').innerHTML = "";
+					$(function(){
+	document.getElementById('display').innerHTML =" <thead><tr id='header'><th id='disease'>Disease_Name</th><th id='time'>Time & Date</th><th id='drugs'>Drugs_Administered</th><th id='username'>Nurse_on_Duty</th><th id='fname'>Student_Firstname</th><th id='lname'>Student_Lastname</th><th id='phone'>Phone</th></tr> </thead>";
+    $.each(obj, function(i, item){
+        var tr = $('<tr>').append(
+			$('<td>').text(item.DISEASE_NAME),
+			$('<td>').text(item.TIME),
+			$('<td>').text(item.DRUGS_ADMINISTERED),
+			$('<td>').text(item.USERNAME),
+            $('<td>').text(item.FIRSTNAME),
+            $('<td>').text(item.LASTNAME),
+			$('<td>').text(item.PHONE)
+        ).appendTo('#display');
+     });
+  });
+		
+				currentObject=null;
+			}
+			
+			/**
+			*@searchInfo()
+			*This function is called once the button is clicked. Data from the text boxes are picked and the necessary switch cases are called
+			*An ajax call is made to the phpAjax.php page where necessary parameters are passed
+			*/
+			function searchInfo(){
+			//write a code to send request to AJAX page
+				//var id = document.getElementsByName("table");   //fetching from a div
+				var id=$("#table").val();
+				switch(id){
+					case "patient":
+					var pID=$("#input").val();
+					var startDate=$("#StartDate").val();
+					var endDate=$("#EndDate").val();
+					var theUrl="phpAjax.php?cmd=1&input="+pID+"&startDate="+startDate+"&endDate="+endDate;
+				$.ajax(theUrl,
+					{
+					async:true,
+					complete:searchInfoComplete}
+					);
+					break;
+					case "disease":
+					var pID=$("#input").val();
+					var startDate=$("#StartDate").val();
+					var endDate=$("#EndDate").val();
+					var theUrl="phpAjax.php?cmd=2&input="+pID+"&startDate="+startDate+"&endDate="+endDate;
+				$.ajax(theUrl,
+					{
+					async:true,
+					complete:searchDiseaseComplete}
+					);
+					break;
+					case "nurse":
+					var pID=$("#input").val();
+					var startDate=$("#StartDate").val();
+					var endDate=$("#EndDate").val();
+					var theUrl="phpAjax.php?cmd=4&input="+pID+"&startDate="+startDate+"&endDate="+endDate;
+				$.ajax(theUrl,
+					{
+					async:true,
+					complete:searchNurseComplete}
+					);
+					break;
+				}
+			}
+	</script>
+	
+	</head>
+	<body>
+	     <div id="header">
+                   <img src="http://images.forbes.com/media/2012/09/28/0928_ashesi-university-non-profit_150x150.jpg" id="logo">
+				   <b>Ashesi Clinic Management System</b>
+				   
+         </div>
+	    
+	     <div id="container">
+	         <div class="sidebar">
+	         	  <ul id="nav">
+					   <li><a class="selected" href="#">Dashboard</a></li>
+	         	  	  <li><a href="home.php">Home</a></li>
+	         	  	  <li><a href="trialSearch.php">Search</a></li>
+	         	  	  <li><a href="view.php">Edit</a></li>
+	         	  	  <li><a href="addPatientTrial.php">Add</a></li>
+	         	  </ul>
+	         </div>
+			 
+	     	 <div id="search">
+	              
+				  <table class='reportTable' id="tableUsers" >
+		<tr class='header'>
+		
+				<div  style="text-align:center"><b>SEARCH BY :</b><select id="table">
+																		<option value="nurse">NURSE</option>
+																		<option value="disease">DISEASE</option>
+																		<option value="patient">PATIENT</option>
+																		</select></div></br>
+				<div  style="text-align:center"><b>APPROPRIATE INPUT :</b><input type="text" name="input" id="input"></div></br>
+				<div  style="text-align:center"><b>START DATE :</b><input type="date" name="StartDate" id="StartDate"></div></br>
+				<div  style="text-align:center"><b>START END :</b><input type="date" name="End" id="EndDate"></div></br>
+				<td></td>
+				<div style="text-align:center"><input type="button" value="search" onclick="searchInfo()"></div>
+				<div id="text" style="color:red; text-align:center"> </div>	
+			</tr>
+		</table>
+		</br>
+		 <table id="display" border="3" style="background-color:#EEEEEE">
+			
+    </table>
+		    </div>
+                   
+	             <footer class="mainFooter">
+		    <p>Ashesi University College Health Center</p>
+			<h1><b>Click on this button for assistance</b> : <a href="javascript:popup()">Help.</a></h1>
+			<div style="text-align: center"><a href=logout.php>Logout</a></div>
+	   </footer>
+	        
+	      </div>
+	</body>
+	</html>
+	
+	
