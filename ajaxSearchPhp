@@ -1,0 +1,122 @@
+<?php
+	//check command
+	if(!isset($_REQUEST['cmd'])){
+		echo "cmd is not provided";
+		exit();
+	}
+	$data ="";
+	
+	/*get command*/
+	$cmd=$_REQUEST['cmd'];
+	switch($cmd){
+		case 1:
+			viewPatient();
+			break;
+		case 2:
+		viewDisease();
+		break;
+		case 4:
+		viewNurse();
+		break;
+		default:
+			echo "wrong cmd";	//change to json message
+			break;
+	}
+	
+		
+		
+		function viewDisease(){
+		include_once("users.php");
+		//check if there is a user code
+		if(!isset($_REQUEST['input'])){
+			echo '{"result":0,"message":"Table specification not provided"}';		
+			return;
+		}
+		
+		$obj=new users();
+		// call get user method
+		
+		$row=$obj->advancedSearchDisease($_REQUEST['input'],$_REQUEST['startDate'],$_REQUEST['endDate']);
+		if(!$row){
+			echo '{"result":0,"message":"User code not provided"}';	
+			return;
+		}
+		
+	$result=$obj->fetch();
+			if ($result == false){
+				echo '{"result":0,"message":"Nurse not found"}';	
+			return;
+			}else {
+			while($result!=false){
+				$data[]=$result;
+				$result=$obj->fetch();
+			}
+		
+			echo json_encode($data);	
+			}
+	}
+	
+	function viewPatient(){
+		include_once("users.php");
+		//check if there is a user code
+		if(!isset($_REQUEST['input'])){
+			echo '{"result":0,"message":"Table specification not provided"}';		
+			return;
+		}
+		
+		$obj=new users();
+		// call get user method
+		
+		$row=$obj->searchStudent($_REQUEST['input'],$_REQUEST['startDate'],$_REQUEST['endDate']);
+		if(!$row){
+			echo '{"result":0,"message":"User code not provided"}';	
+			return;
+		}
+		
+			$result=$obj->fetch();
+			
+			if ($result == false){
+				echo '{"result":0,"message":"Nurse not found"}';	
+			return;
+			}else {
+			while($result!=false){
+				$data[]=$result;
+				$result=$obj->fetch();
+			}
+		
+			echo json_encode($data);
+			}
+	}
+	
+	function viewNurse(){
+		include_once("users.php");
+		//check if there is a user code
+		if(!isset($_REQUEST['input'])){
+			echo '{"result":0,"message":"Table specification not provided"}';		
+			return;
+		}
+		
+		$obj=new users();
+		// call get user method
+		
+		$row=$obj->searchNurse($_REQUEST['input'],$_REQUEST['startDate'],$_REQUEST['endDate']);
+		if(!$row){
+			echo '{"result":0,"message":"Nurse not found"}';	
+			return;
+		}
+		
+	$result=$obj->fetch();
+			if ($result == false){
+				echo '{"result":0,"message":"Nurse not found"}';	
+			return;
+			}
+			else {
+			while($result!=false){
+				$data[]=$result;
+				$result=$obj->fetch();
+			}
+		
+			echo json_encode($data);	
+			}
+	}
+?>
