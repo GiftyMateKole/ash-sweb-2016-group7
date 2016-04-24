@@ -1,0 +1,68 @@
+	<?php
+	include_once("adb.php");
+	/**
+	*Users  class
+	*/
+	class users extends adb{
+		function users(){
+		}
+		
+		/**
+		*Searches through the database using the dates provided as a guide. The function looks for a specific disease name
+		*@param varchar $filter date $dateStart date $dateEnd
+		*/
+		function advancedSearchDisease($filter,$dateStart,$dateEnd){
+			$strQuery="select DISEASE_NAME,TIME,DRUGS_ADMINISTERED,diagnosis.Student_ID,diagnosis.NURSE_ID,patient.FIRSTNAME,patient.LASTNAME,patient.AGE,patient.PHONE,
+		 nurse.USERNAME from diagnosis left join patient on diagnosis.Student_ID=patient.STUDENT_ID
+			left join nurse on diagnosis.NURSE_ID=nurse.NURSE_ID
+		 WHERE TIME>='$dateStart' AND TIME<'$dateEnd' AND DISEASE_NAME='$filter'";
+		 
+			return $this->query($strQuery);
+
+		}
+		
+		/**
+		*Searches through the database using the dates provided as a guide. The function looks for a specific nurse's username
+		*@param varchar $filter date $dateStart date $dateEnd
+		*/
+		function searchNurse($filter,$dateStart,$dateEnd){
+			$strQuery="select DISEASE_NAME,TIME,DRUGS_ADMINISTERED,diagnosis.Student_ID,diagnosis.NURSE_ID,patient.FIRSTNAME,patient.LASTNAME,patient.PHONE,
+		 nurse.FIRST_NAME, nurse.LAST_NAME, nurse.USERNAME,patient.EMAIL from diagnosis left join patient on diagnosis.Student_ID=patient.STUDENT_ID
+			left join nurse on diagnosis.NURSE_ID=nurse.NURSE_ID
+		 WHERE TIME>='$dateStart' AND TIME<'$dateEnd' AND nurse.USERNAME='$filter'";
+		 
+			return $this->query($strQuery);
+
+		}
+		
+		/**
+		*Searches through the database using the dates provided as a guide. The function looks for a specific student using Student_ID
+		*@param int $filter date $dateStart date $dateEnd
+		*/
+		function searchStudent($filter,$dateStart,$dateEnd){
+			$strQuery="select DISEASE_NAME,TIME,DRUGS_ADMINISTERED,diagnosis.Student_ID,diagnosis.NURSE_ID,patient.FIRSTNAME,patient.LASTNAME,patient.AGE,patient.PHONE,
+			nurse.USERNAME from diagnosis left join patient on diagnosis.Student_ID=patient.STUDENT_ID
+			left join nurse on diagnosis.NURSE_ID=nurse.NURSE_ID
+			WHERE TIME>='$dateStart' AND TIME<'$dateEnd' AND diagnosis.STUDENT_ID=$filter";
+		 
+			return $this->query($strQuery);
+
+		}
+		
+		/**
+		*Counts the number of times a specific disease occurs within a specified time frame
+		*@param varchar $filter date $dateStart date $dateEnd
+		*/
+		function countD($text,$dateStart,$dateEnd){
+			$strQuery="select count(*) from diagnosis where TIME>='$dateStart' AND TIME<'$dateEnd' AND DISEASE_NAME='$text'";
+			return $this->query($strQuery);
+		}
+		
+		function login($username,$password){
+		$strQuery =" select USERNAME from nurse where USERNAME='$username' AND PASSWORD=MD5('$password')";
+		
+		return $this->query($strQuery);
+	}
+	}
+	?>
+
