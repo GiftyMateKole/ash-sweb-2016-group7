@@ -1,0 +1,161 @@
+
+<?php
+session_start();
+if (!isset($_SESSION['USERNAME'])){
+header("Location:login.php");
+exit();
+} else{
+	$now=time();
+	if ($now>$_SESSION['EXPIRE']){
+		session_destroy();
+		header("Location:login.php");
+	}
+}
+
+?>
+	<html>
+	<head>
+	<title>Ashesi University</title>
+	<link rel="stylesheet" type="text/css" href="css/group.css" />
+	<meta name="viewport" content="width=device-width, initial-scale:1.0, user-scalabe:0" />
+	<script src="scripts/jquery-1.11.1.min.js"></script>
+	<script src="scripts/general.js"></script>
+	<script>
+	function popup(){
+  displayWindow = window.open("popup.html", "littleWindow", "location=no,width=420,height=200"); 
+}
+	</script>
+	</head>
+	<body>
+	     <div id="header">
+                   <img src="http://images.forbes.com/media/2012/09/28/0928_ashesi-university-non-profit_150x150.jpg" id="logo">
+				   <b>Ashesi Clinic Management System</b>
+				   
+         </div>
+	    
+	     <div id="container">
+	         <div class="sidebar">
+	         	  <ul id="nav">
+					   <li><a class="selected" href="#">Dashboard</a></li>
+	         	  	  <li><a href="home.php">Home</a></li>
+	         	  	  <li><a href="trialSearch.php">Search</a></li>
+	         	  	  <li><a href="view.php">Edit</a></li>
+	         	  	  <li><a href="addPatientTrial.php">Add</a></li>
+	         	  </ul>
+	         </div>
+			 
+	     	 <div id="search">
+	              
+	              <form action="" method="GET">
+				<div style="text-align:center">SEARCH BY:     <select name="description">
+			<option value="Nurse">NURSE</option>
+			<option value="Patient">PATIENT</option>
+			<option value="Disease">DISEASE NAME</option>
+			</select>
+				<div> *****</div>
+				
+				<div style="text-align:center">APPROPRIATE INPUT : <input type="text" name="input" maxlength="35" size="25"></div>
+				</br>
+				
+				<div style="text-align:center">TIME START :  <input type="date" name="dateStart" maxlength="35" size="25"></div>
+				</br>
+				<div style="text-align:center">TIME END :<input type="date" name="dateEnd" maxlength="35" size="25"></div></br>
+				<div style="text-align:center"><input type="submit" value="DISPLAY" ></div>
+					</div>
+				</br>
+				
+				</form>
+	              
+				  
+				  <?php
+			include_once("users.php");
+			$obj=new users();
+			
+			if (isset($_REQUEST['description'])){
+				$data=strcmp("Disease",$_REQUEST['description']);
+				if ($data==0){
+			
+			$d=$obj->countD($_REQUEST['input'],$_REQUEST['dateStart'],$_REQUEST['dateEnd']);
+			$var = $obj->fetch();
+			echo $var['count(*)']." case(s) of ".$_REQUEST['input']. " was recorded between ". $_REQUEST['dateStart']." and ".$_REQUEST['dateEnd'];
+			
+			$r=$obj->advancedSearchDisease($_REQUEST['input'],$_REQUEST['dateStart'],$_REQUEST['dateEnd']);
+					if (!$r){
+					echo "Error occurred when retrieving information";
+				}
+				
+				
+				echo "<table border=\"1\">";
+					echo "<tr><td>DISEASE NAME</td><td>TIME</td><td>DRUGS ADMINISTERED</td>
+				<td>NURSE'S FIRSTNAME</td><td>NURSE'S LASTNAME</td><td>STUDENT FIRSTNAME</td>
+				<td>STUDENT LASTNAME</td><td>PHONE NUMBER</td></tr>";
+				
+				while ($row=$obj->fetch()){
+					echo "<tr class=\"display\"><td>{$row['DISEASE_NAME']}</td>
+					<td>{$row['TIME']}</td><td>{$row['DRUGS_ADMINISTERED']}</td><td>{$row['FIRST_NAME']}</td><td>{$row['LAST_NAME']}</td>
+					<td>{$row['FIRSTNAME']}</td><td>{$row['LASTNAME']}</td><td>{$row['PHONE']}</td></tr>";
+				}
+				echo "</table>";	
+				}
+			}
+			
+			if (isset($_REQUEST['description'])){
+				$data=strcmp("Nurse",$_REQUEST['description']);
+				if ($data==0){
+			$r=$obj->searchNurse($_REQUEST['input'],$_REQUEST['dateStart'],$_REQUEST['dateEnd']);
+			
+					if (!$r){
+					echo "Error occurred when retrieving information";
+				}
+				echo "<table border=\"1\">";
+					echo "<tr><td>NURSE'S USERNAME</td><td>NURSE'S PHONE</td><td>DISEASE TREATED</td><td>TIME & DATE</td><td>DRUGS ADMINISTERED</td>
+				<td>STUDENT FIRSTNAME</td><td>STUDENT LASTNAME</td><td>STUDENT EMAIL</td></tr>";
+				
+				while ($row=$obj->fetch()){
+					echo "<tr class=\"display\"><td>{$row['USERNAME']}</td><td>{$row['PHONE']}</td><td>{$row['DISEASE_NAME']}</td>
+					<td>{$row['TIME']}</td><td>{$row['DRUGS_ADMINISTERED']}</td><td>{$row['FIRSTNAME']}</td><td>{$row['LASTNAME']}</td><td>{$row['EMAIL']}</td></tr>";
+				}
+				echo "</table>";	
+				}
+			}
+			
+
+			if (isset($_REQUEST['description'])){
+				$data=strcmp("Patient",$_REQUEST['description']);
+				if ($data==0){
+			$r=$obj->searchStudent($_REQUEST['input'],$_REQUEST['dateStart'],$_REQUEST['dateEnd']);
+
+					if (!$r){
+					echo "Error occurred when retrieving information";
+				}
+				echo "<table border=\"1\">";
+					echo "<tr><td>STUDENT FIRSTNAME</td><td>STUDENT LASTNAME</td><td>PHONE NUMBER</td><td>AGE</td><td>DISEASE TREATED</td>
+					<td>DRUGS ADMINISTERED</td><td>TIME & DATE</td><td>NURSE'S USERNAME</td></tr>";
+				
+				while ($row=$obj->fetch()){
+					echo "<tr class=\"display\"><td>{$row['FIRSTNAME']}</td><td>{$row['LASTNAME']}</td><td>{$row['PHONE']}</td><td>{$row['AGE']}</td>
+					<td>{$row['DISEASE_NAME']}</td><td>{$row['DRUGS_ADMINISTERED']}</td><td>{$row['TIME']}</td><td>{$row['USERNAME']}</td></tr>";
+				}
+				echo "</table>";	
+				}
+			}
+			
+			//$table=$_REQUEST['gender'];
+			//	if ($table == "Nurse"){
+			//		echo "Bravo";
+		     //	}
+			
+			?>
+		    </div>
+                   <div id="textBottom" ><a href="javascript:popup()">Help.</a></div> 
+	             <footer class="mainFooter">
+		    <p>Ashesi University College Health Center</p>
+			<h1>Follow us on facebook!!!</h1>
+			<div style="text-align: center"><a href=logout.php>Logout</a></div>
+	   </footer>
+	        
+	      
+	</body>
+	</html>
+	
+	
