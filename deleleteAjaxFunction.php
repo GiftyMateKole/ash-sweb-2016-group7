@@ -81,12 +81,11 @@
 				text.innerHTML = obj2.message;
 				}
 				
-				//code to delete the row from the HTML table
 				var a = tableRow.parentNode.parentNode.rowIndex;
 				document.getElementById("nurseTable").deleteRow(a);
 		}
 		
-				/**
+		/**
 		*making an Ajax call to server to get details of diagnosis
 		*@param int DIAGNOSIS_ID which contains the id of diagnosis 
 		*sending a request to an Ajax page
@@ -206,7 +205,7 @@
 	}
 	}
 	
-		/**
+	/**
 	*Calling the object's  method searchNurse & getNurse method and checking for error
 	*Displaying the result
 	*/
@@ -237,9 +236,40 @@
 	echo "</table>";
 	}
 	}
+	
+		/**
+	*Calling the object's  method searchDiagnosis & getDiagnosis method and checking for error
+	*Displaying the result
+	*/
+	if(isset($_REQUEST['txtSearch'])){
+		$var5 = strcmp("diagnosis",$_REQUEST['txtSearch']);
+		if ($var5 == 0){
+		$r=$new->getDiagnosis($_REQUEST['input']);
+		if(!$r){
+		echo "Error";
+	}	
+	
+	echo "<table style=\"background-color:#EEEEEE\" id = 'diagnosisTable' border=\"1\">";
+	echo "<tr><td>DIAGNOSIS_ID</td><td>NAME</td><td>TIME</td><td>DRUGS ADMINISTERED</td><td>NURSE ID</td><td>STUDENT ID</td><td>HOSPITAL ID</td></tr>";
+	while($row=$new->fetch()){
+		$userCD = $row['DIAGNOSIS_ID'];
+		echo "<tr>";
+		echo "<td>{$row['DIAGNOSIS_ID']}</td>";
+		echo "<td>{$row['DISEASE_NAME']}</td>";
+		echo "<td>{$row['DIAGNOSIS_TIME']}</td>";
+		echo "<td>{$row['DRUGS_ADMINISTERED']}</td>";
+		echo "<td>{$row['NURSE_ID']}</td>";
+		echo "<td>{$row['STUDENT_ID']}</td>";
+		echo "<td>{$row['HOSPITAL_ID']}</td>";
+		echo "<td><span onclick='delDiagnosis(this,{$row['DIAGNOSIS_ID']})'><a href=#>Delete</a></span></td>";
+		echo "</tr>";	
+	}
+	echo "</table>";
+	}
+	}
 	?>
 				
-			</tr>
+		</tr>
 		</table>
 		</br>
 		 <table id="display" border="3" style="background-color:#EEEEEE">
