@@ -205,6 +205,38 @@
 	echo "</table>";
 	}
 	}
+	
+		/**
+	*Calling the object's  method searchNurse & getNurse method and checking for error
+	*Displaying the result
+	*/
+	if(isset($_REQUEST['txtSearch'])){
+		$var2 = strcmp("nurse",$_REQUEST['txtSearch']);
+		if($var2 == 0){
+		$r=$new->getNurse($_REQUEST['input']);
+		
+	if(!$r){
+		echo "Error";
+	}
+		
+	echo "<table style=\"background-color:#EEEEEE\" id = 'nurseTable' border=\"1\">";
+	echo "<tr><td>NURSE_ID</td><td>FIRSTNAME</td><td>LASTNAME</td><td>EMAIL</td><td>PHONE</td><td>USERNAME</td><td>PASSWORD</td></tr>";
+	while($row=$new->fetch()){
+		$userCD = $row['NURSE_ID'];
+		echo "<tr>";
+		echo "<td>{$row['NURSE_ID']}</td>";
+		echo "<td>{$row['FIRST_NAME']}</td>";
+		echo "<td>{$row['LAST_NAME']}</td>";
+		echo "<td>{$row['EMAIL']}</td>";
+		echo "<td>{$row['PHONE']}</td>";
+		echo "<td>{$row['USERNAME']}</td>";
+		echo "<td>{$row['PWORD']}</td>";
+		echo "<td><span onclick='delNurse(this,{$row['NURSE_ID']})'><a href=#>Delete</a></span></td>";
+		echo "</tr>";	
+	}
+	echo "</table>";
+	}
+	}
 	?>
 				
 			</tr>
