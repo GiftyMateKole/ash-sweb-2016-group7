@@ -85,3 +85,42 @@
 				var a = tableRow.parentNode.parentNode.rowIndex;
 				document.getElementById("nurseTable").deleteRow(a);
 		}
+		
+			</script>
+	
+	</head>
+	<body>
+	     <div id="header">
+                   <img src="http://images.forbes.com/media/2012/09/28/0928_ashesi-university-non-profit_150x150.jpg" id="logo">
+				   <b>Ashesi Clinic Management System</b>
+				   <div id="divStatus">
+						status message
+					</div>
+				   
+         </div>
+	    
+	     <div id="container">
+	         <div class="sidebar">
+	         	  <ul id="nav">
+					   <li><a class="selected" href="#">Dashboard</a></li>
+	         	  	  <li><a href="home.php">Home</a></li>
+	         	  	  <li><a href="trialSearch.php">Search</a></li>
+	         	  	  <li><a href="view.php">Edit</a></li>
+	         	  	  <li><a href="addPatientTrial.php">Add</a></li>
+	         	  </ul>
+	         </div>
+			 
+	     	 <div id="search">
+	              
+				  <table class='reportTable' id="tableUsers" >
+				  
+		<tr class='header'>
+		
+		<form action="" method="GET">
+						<input type="text" name="txtSearch">
+						<input type="text" name="input">
+						<input type="submit" value="search" >
+						</form>	
+						
+			</div>
+			
