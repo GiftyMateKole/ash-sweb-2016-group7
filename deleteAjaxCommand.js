@@ -11,6 +11,9 @@
 		case 2;
 			deleteNurse();
 			break;
+		case 3;
+			deleteDiagnosis();
+			break;
 		default:
 			echo '{"message":"wrong command"}';
 			break;
@@ -60,6 +63,30 @@
 			}
 			else{
 				echo '{"result":1,"message":"nurse not deleted"}';
+			}
+		}
+		
+				/**
+		*check for diagnosiscode
+		*return error if diagnosiscode is not provided
+		* delete diagnosis & return message or error message
+		*/
+		function deleteDiagnosis(){
+		
+			include("Info.php");
+			if(!isset($_REQUEST['ud'])){
+				echo '{"message":"diagnosiscode not provided"}';
+				return;
+			}
+			$diagnosiscode = $_REQUEST['ud'];
+			
+			$info = new Info();
+			
+			if($info->deleteDiagnosis($diagnosiscode)){
+				echo '{"result":0,"message":"diagnosis deleted"}';
+			}
+			else{
+				echo '{"result":1,"message":"diagnosis not deleted"}';
 			}
 		}
 		?>
