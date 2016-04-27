@@ -1,11 +1,20 @@
+<html>
+	<head>
+	<title>Ashesi University</title>
+	<link rel="stylesheet" type="text/css" href="css/group.css" />
+	<script src="js/jquery-1.12.1.js"></script>
+	
+	<script>
 	var tableRow="";
 	
+		/**
+		* making an Ajax call to server to get details of patient
+		*@param int STUDENT_ID which stores id of the patient
+		* sending a request to an Ajax page
+		*/
 		function delPatient(row,STUDENT_ID){
 				tableRow = row;
-		 
-		/**
-		*sending a request to an Ajax page
-		*/
+	
 			var ajaxPageUrl = "Ajax_2.php?cmd=1&uc="+STUDENT_ID;
 			if (confirm('Are you sure you want to delete this information')){
 				
@@ -20,6 +29,8 @@
 		
 		/**
 		*receving a request and sending a response
+		*@param boolean status which return success if true and not if failure
+		*@param string xhr which returns message to the client when info is deleted or not
 		*/
 		function delPatientComplete(xhr,status){
 			if(status!= "success"){
@@ -31,7 +42,46 @@
 				divStatus.innerHTML = obj.message;
 				}
 				
-				//code to delete the row from the HTML table
 				var i = tableRow.parentNode.parentNode.rowIndex;
 				document.getElementById("patientTable").deleteRow(i);
+		}
+		
+		/**
+		*making an Ajax call to server to get details of nurse
+		*@param int NURSE_ID which stores nurse id
+		*sending a request to an Ajax page
+		*/
+		function delNurse(row,NURSE_ID){
+				tableRow = row;
+				
+			var ajaxUrl = "Ajax_2.php?cmd=2&un="+NURSE_ID;
+			if (confirm('Are you sure you want to delete this information')){
+			$.ajax(ajaxUrl,
+			{
+				async:true,
+				complete:delNurseComplete
+			}
+			);
+			}
+		}
+		
+		/**
+		*receving a request and sending a response
+		*@param boolean status which return success if true and not if failure
+		*@param string xhr which returns message to the client when info is deleted or not
+		*/
+		function delNurseComplete(xhr,status){
+			if(status!= "success"){
+				divStatus.innerHTML = "error while deleting page";
+                 return;				 
+			}
+				var obj2 = $.parseJSON(xhr.responseText);
+				if (obj2.result==0){
+				var text =document.getElementById("divStatus");
+				text.innerHTML = obj2.message;
+				}
+				
+				//code to delete the row from the HTML table
+				var a = tableRow.parentNode.parentNode.rowIndex;
+				document.getElementById("nurseTable").deleteRow(a);
 		}
