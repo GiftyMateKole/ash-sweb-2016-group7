@@ -237,7 +237,7 @@
 	}
 	}
 	
-		/**
+	/**
 	*Calling the object's  method searchDiagnosis & getDiagnosis method and checking for error
 	*Displaying the result
 	*/
