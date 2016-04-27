@@ -86,7 +86,46 @@
 				document.getElementById("nurseTable").deleteRow(a);
 		}
 		
-			</script>
+				/**
+		*making an Ajax call to server to get details of diagnosis
+		*@param int DIAGNOSIS_ID which contains the id of diagnosis 
+		*sending a request to an Ajax page
+		*/
+		function delDiagnosis(row,DIAGNOSIS_ID){
+				tableRow = row;
+				
+			var theUrl = "Ajax_2.php?cmd=3&ud="+DIAGNOSIS_ID;
+			if (confirm('Are you sure you want to delete this information')){
+			$.ajax(theUrl,
+			{
+				async:true,
+				complete:delDiagnosisComplete
+			}
+			);
+			}
+		}
+		
+		/**
+		*receving a request and sending a response
+		*@param boolean status which return success if true and not if failure
+		*@param string xhr which returns message to the client when info is deleted or no
+		*/
+		function delDiagnosisComplete(xhr,status){
+			if(status!= "success"){
+				divStatus.innerHTML = "error while deleting page";
+                 return;				 
+			}
+				var obj3 = $.parseJSON(xhr.responseText);
+				if (obj3.result==0){
+				divStatus.innerHTML = obj3.message;
+				}
+				
+				//code to delete the row from the HTML table
+				var x = tableRow.parentNode.parentNode.rowIndex;
+				document.getElementById("diagnosisTable").deleteRow(x);
+		}	
+		
+</script>
 	
 	</head>
 	<body>
