@@ -1,0 +1,15 @@
+Wiki Page
+Edit Records
+The edit records requirement allows nurses or health providers to view and edit health records of 
+patients who visit the center. Records are first displayed and then edited. The edit requirement 
+allows the following data to be displayed and edited:
+Sidebar: There is sidebar bar on every page with a subsection called edit. To edit a particular 
+record, the edit section on the sidebar is clicked to display records of patients, diagnosis, nurses, hospitals and 
+inusrance. To edit a particular record in the system, click on the record name on the sidebar bar. 
+They are as follows:
+Patient: When clicked, displays patient records. The user then double clicks on the item he/she 
+wants to edit. A textbox shows containing the old record to be edited. After editing, the user 
+clicks on enter for the new record to be saved. Health providers are allowed to only edit patient 
+records. Records like insurance, hospitals and nurses cannot be edited by the health providers 
+unless the administration.
+
