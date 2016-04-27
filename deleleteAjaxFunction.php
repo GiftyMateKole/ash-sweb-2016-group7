@@ -162,4 +162,66 @@
 						</form>	
 						
 			</div>
+<?php
+	
+	/**
+	*Object of info class
+	*/
+	include_once("Info.php");
+	$new = new Info();
+	
+	/**
+	*Calling the object's  method searchUsers & getPatient method and checking for error
+	*Displaying the result
+	*/
+	if(isset($_REQUEST['txtSearch'])){
+		$var1 = strcmp("patient",$_REQUEST['txtSearch']);
+		
+		if($var1 == 0){
+		$r=$new->getPatient($_REQUEST['input']);
+		
+	if(!$r){
+		echo "Error";
+	}
+	
+	echo "<table style=\"background-color:#EEEEEE\" id = 'patientTable' border=\"1\">";
+	echo "<tr><td>STUDENT_ID</td><td>FIRSTNAME</td><td>LASTNAME</td><td>GENDER</td><td>AGE</td><td>PHONE</td><td>EMAIL</td>
+	<td>INSURANCE_ID</td><td>LOCATION</td></tr>";
+	while($row=$new->fetch()){
+		$userCD = $row['STUDENT_ID'];
+		echo "<tr>";
+		echo "<td>{$row['STUDENT_ID']}</td>";
+		echo "<td>{$row['FIRSTNAME']}</td>";
+		echo "<td>{$row['LASTNAME']}</td>";
+		echo "<td>{$row['GENDER']}</td>";
+		echo "<td>{$row['AGE']}</td>";
+		echo "<td>{$row['PHONE']}</td>";
+		echo "<td>{$row['EMAIL']}</td>";
+		echo "<td>{$row['INSURANCE_ID']}</td>";
+		echo "<td>{$row['LOCATION']}</td>";
+		echo "<td><span onclick='delPatient(this,{$row['STUDENT_ID']})'><a href=#>Delete</a></span></td>";
+		echo "</tr>";
+	}
+	echo "</table>";
+	}
+	}
+	?>
+				
+			</tr>
+		</table>
+		</br>
+		 <table id="display" border="3" style="background-color:#EEEEEE">
+			
+    </table>
+		    </div>
+                   
+	             <footer class="mainFooter">
+		    <p>Ashesi University College Health Center</p>
+			<h1><b>Click on this button for assistance</b> : <a href="javascript:popup()">Help.</a></h1>
+			<div style="text-align: center"><a href=logout.php>Logout</a></div>
+	   </footer>
+	        
+	      </div>
+	</body>
+	</html>
 			
